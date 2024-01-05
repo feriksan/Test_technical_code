@@ -1,0 +1,60 @@
+<input type="number" placeholder="input angka" name="angka" id="angka">
+<input type="button" value="generate segitiga" id="segitiga">
+<input type="button" value="generate bilangan ganjil" id="bilanganGanjil">
+<input type="button" value="generate bilangan prima" id="bilanganPrima">
+<h1>Result</h1>
+<div id="result">
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $('#segitiga').click(function(){
+        var angka = $('#angka').val()
+        console.log(angka)
+        $.ajax({
+            url:'http://localhost:8000/segitiga',
+            method:"POST",
+            data:{"angka":angka},
+            dataType:"JSON",
+            success:function(data){
+                $('#result').empty()
+                data.data.forEach(element => {
+                    $('#result').append(
+                        "<p>" + element + "</p>"
+                    )
+                });
+            }
+        })
+    })
+    $('#bilanganGanjil').click(function(){
+        var angka = $('#angka').val()
+        $.ajax({
+            url:'http://localhost:8000/ganjil',
+            method:"POST",
+            data:{"angka":angka},
+            dataType:"JSON",
+            success:function(data){
+                $('#result').empty()
+                $('#result').append(
+                        "<p>" + data.data + "</p>"
+                )
+            }
+        })
+    })
+    $('#bilanganPrima').click(function(){
+        var angka = $('#angka').val()
+        $.ajax({
+            url:'http://localhost:8000/prima',
+            method:"POST",
+            data:{"angka":angka},
+            dataType:"JSON",
+            success:function(data){
+                $('#result').empty()
+                $('#result').append(
+                        "<p>" + data.data.join(",") + "</p>"
+                )
+            }
+        })
+    })
+</script>
